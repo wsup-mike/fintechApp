@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { useAssets } from 'expo-asset';
-import { Video } from 'expo-av';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ResizeMode, Video } from 'expo-av';
+import { TouchableOpacity } from 'react-native';
 import { Link } from 'expo-router';
+import { defaultStyles } from '@/constants/Styles';
+import Colors from '@/constants/Colors';
 
 const Page = () => {
   const [assets] = useAssets([require('@/assets/videos/intro.mp4')]);
@@ -11,6 +13,7 @@ const Page = () => {
     <View style={styles.container}>
       { assets && 
         <Video 
+        resizeMode={ResizeMode.COVER}
           isLooping
           shouldPlay
           isMuted
@@ -22,9 +25,14 @@ const Page = () => {
       </View>
       
       <View style={styles.buttons}>
-        <Link href={'/login'} asChild>
+        <Link href={'/login'} style={[defaultStyles.pillButton, { flex: 1, backgroundColor: Colors.dark }]} asChild>
           <TouchableOpacity>
-            <Text style={{ color: 'white' }}>Login</Text>
+            <Text style={{ color: 'white', fontSize: 22, fontWeight: '500' }}>Login</Text>
+          </TouchableOpacity>
+        </Link>
+        <Link href={'/signup'} style={[defaultStyles.pillButton, { flex: 1, backgroundColor: Colors.primary }]} asChild>
+          <TouchableOpacity>
+            <Text style={{ color: 'white', fontSize: 22, fontWeight: '500' }}>Sign up</Text>
           </TouchableOpacity>
         </Link>
       </View>
@@ -57,6 +65,14 @@ const styles = StyleSheet.create({
     gap: 20,
     paddingHorizontal: 20,
     marginBottom: 60,
+  },
+
+  pillButton: {
+    padding: 10,
+    height: 60,
+    borderRadius: 40,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
