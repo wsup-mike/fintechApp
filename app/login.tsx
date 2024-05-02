@@ -6,6 +6,14 @@ import { Link } from 'expo-router';
 import { KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+// To define a new enum for various styling features in the Sign in option buttons
+enum SignInType {
+  Phone,
+  Email,
+  Google,
+  Apple
+}
+
 
 const Page = () => {
 
@@ -13,7 +21,9 @@ const Page = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 0;
 
-  const onSignIn = async () => { };
+  const onSignIn = async (type: SignInType) => {
+
+  };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset}>
@@ -45,14 +55,13 @@ const Page = () => {
           </Link> */}
 
           <View style={{ flex: 1 }}>
-
             <TouchableOpacity
               style={[
                 defaultStyles.pillButton,
                 phoneNumber != '' ? styles.enabled : styles.disabled,
                 { marginBottom: 20 }
               ]}
-              onPress={onSignIn}
+              onPress={() => onSignIn(SignInType.Phone)}
             >
               <Text style={defaultStyles.buttonText}>Continue</Text>
             </TouchableOpacity>
@@ -63,12 +72,19 @@ const Page = () => {
               <View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: Colors.lightGray, }} />
             </View>
 
-            <TouchableOpacity style={[defaultStyles.pillButton, {
-              flexDirection: 'row',
-              gap: 16,
-              marginTop: 20,
-              backgroundColor: '#fff'
-            }]}>
+            <TouchableOpacity
+              onPress={() => onSignIn(SignInType.Email)}
+              style={
+                [
+                  defaultStyles.pillButton, {
+                    flexDirection: 'row',
+                    gap: 16,
+                    marginTop: 20,
+                    backgroundColor: '#fff'
+                  }
+                ]
+              }
+            >
               <Ionicons
                 name='mail'
                 size={24}
@@ -76,6 +92,50 @@ const Page = () => {
               />
               <Text style={[defaultStyles.buttonText, { color: Colors.dark }]}>Continue with email</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => onSignIn(SignInType.Google)}
+              style={
+                [
+                  defaultStyles.pillButton, {
+                    flexDirection: 'row',
+                    gap: 16,
+                    marginTop: 20,
+                    backgroundColor: '#fff'
+                  }
+                ]
+              }
+            >
+              <Ionicons
+                name='logo-google'
+                size={24}
+                color={Colors.dark}
+              />
+              <Text style={[defaultStyles.buttonText, { color: Colors.dark }]}>Continue with Google</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => onSignIn(SignInType.Apple)}
+              style={
+                [
+                  defaultStyles.pillButton, {
+                    flexDirection: 'row',
+                    gap: 16,
+                    marginTop: 20,
+                    backgroundColor: '#fff'
+                  }
+                ]
+              }
+            >
+              <Ionicons
+                name='logo-apple'
+                size={24}
+                color={Colors.dark}
+              />
+              <Text style={[defaultStyles.buttonText, { color: Colors.dark }]}>Continue with Apple</Text>
+            </TouchableOpacity>
+
+
           </View>
         </View>
       </TouchableWithoutFeedback>
