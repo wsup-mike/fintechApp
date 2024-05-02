@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
 import { useAssets } from 'expo-asset';
 import { ResizeMode, Video } from 'expo-av';
 import { TouchableOpacity } from 'react-native';
@@ -11,9 +11,9 @@ const Page = () => {
   const [assets] = useAssets([require('@/assets/videos/intro.mp4')]);
   return (
     <View style={styles.container}>
-      { assets && 
-        <Video 
-        resizeMode={ResizeMode.COVER}
+      {assets &&
+        <Video
+          resizeMode={ResizeMode.COVER}
           isLooping
           shouldPlay
           isMuted
@@ -23,7 +23,7 @@ const Page = () => {
       <View style={{ marginTop: 80, padding: 20 }}>
         <Text style={styles.header}>Ready to change your portfolio management?</Text>
       </View>
-      
+
       <View style={styles.buttons}>
         <Link href={'/login'} style={[defaultStyles.pillButton, { flex: 1, backgroundColor: Colors.dark }]} asChild>
           <TouchableOpacity>
@@ -37,8 +37,8 @@ const Page = () => {
         </Link>
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -67,13 +67,6 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
 
-  pillButton: {
-    padding: 10,
-    height: 60,
-    borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
 });
 
 export default Page;

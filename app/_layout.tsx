@@ -8,6 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Link } from 'expo-router';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -42,59 +43,74 @@ const InitialLayout = () => {
 
   return (
     <Stack>
-      <Stack.Screen name='index' options={{ headerShown: false }}/>
-      <Stack.Screen name='signup' options={{ 
-        title: '',
-        headerBackTitle: '',
-        headerStyle: { backgroundColor: Colors.background },
-        headerLeft: () => (
-          <TouchableOpacity onPress={router.back}>
-            <Ionicons 
-              name='arrow-back'
-              size={34}
-              color={Colors.primary}
-            />
-          </TouchableOpacity>
-        ),
-        }}
-      />
-      <Stack.Screen name='login' options={{ 
-        title: '',
-        headerBackTitle: '',
-        headerStyle: { backgroundColor: Colors.background },
-        headerLeft: () => (
-          <TouchableOpacity onPress={router.back}>
-            <Ionicons 
-              name='arrow-back'
-              size={34}
-              color={Colors.primary}
-            />
-          </TouchableOpacity>
-        ),
-        headerRight: () => (
-          <Link href={'/help'} asChild>
-            <TouchableOpacity>
-              <Ionicons 
-                name='help-circle-outline'
+      <Stack.Screen name='index' options={{ headerShown: false }} />
+
+      <Stack.Screen
+        name='signup'
+        options={{
+          title: '',
+          headerBackTitle: '',
+          headerStyle: { backgroundColor: Colors.background },
+          headerLeft: () => (
+            <TouchableOpacity onPress={router.back}>
+              <Ionicons
+                name='arrow-back'
                 size={34}
                 color={Colors.primary}
               />
             </TouchableOpacity>
-          </Link>
-        ),
+          ),
         }}
       />
-  </Stack>
-);
-}
+
+      <Stack.Screen
+        name='login'
+        options={{
+          title: '',
+          headerBackTitle: '',
+          headerStyle: { backgroundColor: Colors.background },
+          headerLeft: () => (
+            <TouchableOpacity onPress={router.back}>
+              <Ionicons
+                name='arrow-back'
+                size={34}
+                color={Colors.primary}
+              />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <Link href={'/help'} asChild>
+              <TouchableOpacity>
+                <Ionicons
+                  name='help-circle-outline'
+                  size={34}
+                  color={Colors.primary}
+                />
+              </TouchableOpacity>
+            </Link>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name='help'
+        options={{
+          title: 'Help',
+          presentation: 'modal'
+        }}
+      />
+
+    </Stack>
+  );
+};
 
 const RootLayoutNav = () => {
   return (
-    <>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar style='light' />
       <InitialLayout />
-    </>
+    </GestureHandlerRootView>
   );
-}
+};
 
 export default RootLayoutNav;
