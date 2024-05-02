@@ -44,39 +44,39 @@ const Page = () => {
             </TouchableOpacity>
           </Link> */}
 
-          <View style={{ flex: 1 }}></View>
+          <View style={{ flex: 1 }}>
 
-          <TouchableOpacity
-            style={[
-              defaultStyles.pillButton,
-              phoneNumber != '' ? styles.enabled : styles.disabled,
-              { marginBottom: 20 }
-            ]}
-            onPress={onSignIn}
-          >
-            <Text style={defaultStyles.buttonText}>Continue</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                defaultStyles.pillButton,
+                phoneNumber != '' ? styles.enabled : styles.disabled,
+                { marginBottom: 20 }
+              ]}
+              onPress={onSignIn}
+            >
+              <Text style={defaultStyles.buttonText}>Continue</Text>
+            </TouchableOpacity>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-            <View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: Colors.gray, }} />
-            <Text style={{ color: Colors.gray, fontSize: 20 }}>or</Text>
-            <View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: Colors.lightGray, }} />
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+              <View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: Colors.gray, }} />
+              <Text style={{ color: Colors.gray, fontSize: 20 }}>or</Text>
+              <View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: Colors.lightGray, }} />
+            </View>
+
+            <TouchableOpacity style={[defaultStyles.pillButton, {
+              flexDirection: 'row',
+              gap: 16,
+              marginTop: 20,
+              backgroundColor: '#fff'
+            }]}>
+              <Ionicons
+                name='mail'
+                size={24}
+                color={Colors.dark}
+              />
+              <Text style={[defaultStyles.buttonText, { color: Colors.dark }]}>Continue with email</Text>
+            </TouchableOpacity>
           </View>
-
-          <TouchableOpacity style={[defaultStyles.pillButton, {
-            flexDirection: 'row',
-            gap: 16,
-            marginTop: 20,
-            backgroundColor: '#fff'
-          }]}>
-            <Ionicons
-              name='mail'
-              size={24}
-              color={Colors.dark}
-            />
-            <Text style={[defaultStyles.buttonText, { color: Colors.dark }]}>Continue with email</Text>
-          </TouchableOpacity>
-
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
