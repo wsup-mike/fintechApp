@@ -2,9 +2,10 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, Touchabl
 import React, { useState } from 'react';
 import { defaultStyles } from '@/constants/Styles';
 import Colors from '@/constants/Colors';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSignIn } from '@clerk/clerk-expo';
 
 // To define a new enum for various styling features in the Sign in option buttons
 enum SignInType {
@@ -16,13 +17,38 @@ enum SignInType {
 
 
 const Page = () => {
-
   const [countryCode, setCountryCode] = useState('+1');
   const [phoneNumber, setPhoneNumber] = useState('');
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 0;
+  const router = useRouter();
+  const { signIn } = useSignIn();
 
   const onSignIn = async (type: SignInType) => {
+    if (type === SignInType.Phone) {
+      try {
+        const fullPhoneNumber = `${countryCode}${phoneNumber}`;
 
+        const { supportedFirstFactors } = await signIn!.create({
+          identifier: fullPhoneNumber,
+        });
+
+        const firstPhoneFactor: any = supportedFirstFactors.find((factor: any) => {
+          return factor.strategy === 'phone_code';
+        });
+
+        const { phoneNumberId } = firstPhoneFactor;
+
+        await signIn!.prepareFirstFactor({
+          strategy: 'phone_code',
+          phoneNumberId
+        });
+
+        router.push({ pathname: '/verify/[phone]', params: { phone: fullPhoneNumber, signIn: 'true' } });
+
+      } catch (error) {
+
+      }
+    }
   };
 
   return (
