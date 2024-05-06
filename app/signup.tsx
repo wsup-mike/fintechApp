@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native'
-import React, { useState } from 'react'
-import { defaultStyles } from '@/constants/Styles'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React, { useState } from 'react';
+import { defaultStyles } from '@/constants/Styles';
 import Colors from '@/constants/Colors';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { KeyboardAvoidingView } from 'react-native';
+import { useSignUp } from '@clerk/clerk-expo';
 
 
 const Page = () => {
@@ -11,23 +12,37 @@ const Page = () => {
   const [countryCode, setCountryCode] = useState('+1');
   const [phoneNumber, setPhoneNumber] = useState('');
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 0;
-  
-  const onSignup = async () => {};
+  const router = useRouter();
+  const { signUp } = useSignUp();
+
+  const onSignup = async () => {
+    const fullPhoneNumber = `${countryCode}${phoneNumber}`;
+
+    try {
+      await signUp!.create({
+        phoneNumber: fullPhoneNumber
+      });
+
+      router.push({ pathname: '/verify/[phone]', params: { phone: fullPhoneNumber } });
+    } catch (error) {
+      console.error('Error signing up:', error);
+    }
+  };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding' keyboardVerticalOffset={keyboardVerticalOffset}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={ defaultStyles.container }>
-          <Text style={ defaultStyles.header }>Let's get started!</Text>
-          <Text style={ defaultStyles.descriptionText }>Enter your phone number to start. We will send you confirmation code shortly!</Text>
+        <View style={defaultStyles.container}>
+          <Text style={defaultStyles.header}>Let's get started!</Text>
+          <Text style={defaultStyles.descriptionText}>Enter your phone number to start. We will send you confirmation code shortly!</Text>
           <View style={styles.inputContainer}>
-            <TextInput 
+            <TextInput
               style={styles.input}
               placeholder='Country Code'
               placeholderTextColor={Colors.dark}
               value={countryCode}
             />
-            <TextInput 
+            <TextInput
               style={[styles.input, { flex: 1 }]}
               placeholder='Mobile Number'
               keyboardType='numeric'
@@ -47,7 +62,7 @@ const Page = () => {
 
           <TouchableOpacity
             style={[
-              defaultStyles.pillButton, 
+              defaultStyles.pillButton,
               phoneNumber != '' ? styles.enabled : styles.disabled,
               { marginBottom: 20 }
             ]}
@@ -58,8 +73,8 @@ const Page = () => {
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   inputContainer: {
@@ -85,4 +100,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Page
+export default Page;
