@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { defaultStyles } from '@/constants/Styles';
 import Colors from '@/constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import { KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useSignIn } from '@clerk/clerk-expo';
+import { isClerkAPIResponseError, useSignIn } from '@clerk/clerk-expo';
 
 // To define a new enum for various styling features in the Sign in option buttons
 enum SignInType {
@@ -45,8 +45,14 @@ const Page = () => {
 
         router.push({ pathname: '/verify/[phone]', params: { phone: fullPhoneNumber, signIn: 'true' } });
 
-      } catch (error) {
+      } catch (err) {
+        console.log('error', JSON.stringify(err, null, 2));
 
+        if (isClerkAPIResponseError(err)) {
+          if (err.errors[0].code === 'form_identifier_not_found') {
+            Alert.alert('Error', err.errors[0].message);
+          }
+        }
       }
     }
   };
