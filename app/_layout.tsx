@@ -115,6 +115,25 @@ const InitialLayout = () => {
       />
 
       <Stack.Screen
+        name='verify/[phone]'
+        options={{
+          title: '',
+          headerBackTitle: '',
+          headerStyle: { backgroundColor: Colors.background },
+          headerLeft: () => (
+            <TouchableOpacity onPress={router.back}>
+              <Ionicons
+                name='arrow-back'
+                size={34}
+                color={Colors.primary}
+              />
+            </TouchableOpacity>
+          ),
+
+        }}
+      />
+
+      <Stack.Screen
         name='help'
         options={{
           title: 'Help',
