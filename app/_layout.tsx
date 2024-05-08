@@ -7,11 +7,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useSegments } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 import * as SecureStore from 'expo-secure-store';
+
 
 // Cache the Clerk JWT
 const tokenCache = {
@@ -47,8 +48,8 @@ const InitialLayout = () => {
   });
 
   const router = useRouter();
-
   const { isLoaded, isSignedIn } = useAuth();
+  const segments = useSegments();
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -63,6 +64,13 @@ const InitialLayout = () => {
 
   useEffect(() => {
     console.log('isSignedIn', isSignedIn);
+
+    if (!isLoaded) {
+      return;
+    }
+
+    const inAuthGroup = segments[0] === '(authenticated)';
+
   }, [isSignedIn]);
 
   if (!loaded) {
